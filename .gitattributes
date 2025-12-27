@@ -1,0 +1,21 @@
+# Linguist overrides for accurate language detection
+
+# Ignore generated/build directories
+target/** linguist-generated
+test-ledger/** linguist-generated
+
+# Mark generated files
+target/idl/*.json linguist-generated
+target/types/*.ts linguist-generated
+
+# Ensure Rust is properly detected
+*.rs linguist-language=Rust
+
+# TypeScript detection
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+# Lock files are generated
+Cargo.lock linguist-generated
+yarn.lock linguist-generated
+bun.lockb linguist-generated
