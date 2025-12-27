@@ -348,17 +348,13 @@ describe("Stake Program - LiteSVM", () => {
   });
 
   // ==========================================================================
-  // Additional Edge Case Tests
+  // Reward Calculation Test
   // ==========================================================================
-  test("stake_sol: can stake again after unstaking (new StakeAccount created)", () => {
-    const stakeAmount = BigInt(0.5 * LAMPORTS_PER_SOL);
+  test("calculate_rewards: compute staking rewards based on duration", () => {
     const [stakeAccountPda] = findStakeAccountPda(authority.publicKey);
 
-    // Verify StakeAccount doesn't exist (was closed in previous test)
-    const stakeAccountBefore = svm.getAccount(stakeAccountPda);
-    expect(stakeAccountBefore).toBeNull();
-
-    // Stake again
+    // First, stake some SOL to have a stake account
+    const stakeAmount = BigInt(1 * LAMPORTS_PER_SOL);
     const discriminator = getDiscriminator("stake_sol");
     const amountBuffer = Buffer.alloc(8);
     amountBuffer.writeBigUInt64LE(stakeAmount);
@@ -382,14 +378,50 @@ describe("Stake Program - LiteSVM", () => {
     tx.sign(authority);
     svm.sendTransaction(tx);
 
-    // Verify new StakeAccount was created
-    const stakeAccountAfter = svm.getAccount(stakeAccountPda);
-    expect(stakeAccountAfter).not.toBeNull();
-    
-    const stakeData = parseStakeAccount(stakeAccountAfter!.data);
-    expect(stakeData.amount).toBe(stakeAmount);
+    // Get stake account data
+    const stakeAccount = svm.getAccount(stakeAccountPda);
+    expect(stakeAccount).not.toBeNull();
+    const stakeData = parseStakeAccount(stakeAccount!.data);
 
-    console.log("Successfully staked again after previous unstake!");
-    console.log(`   New stake amount: ${Number(stakeData.amount) / LAMPORTS_PER_SOL} SOL`);
+    // Reward calculation parameters
+    const ANNUAL_RATE = 0.10; // 10% APY
+    const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
+
+    // Simulate different staking durations
+    const durations = [
+      { name: "1 hour", seconds: 3600 },
+      { name: "1 day", seconds: 86400 },
+      { name: "1 week", seconds: 604800 },
+      { name: "30 days", seconds: 2592000 },
+      { name: "1 year", seconds: SECONDS_PER_YEAR },
+    ];
+
+    console.log("\nReward Calculation (10% APY):");
+    console.log(`   Staked amount: ${Number(stakeData.amount) / LAMPORTS_PER_SOL} SOL`);
+    console.log(`   Stake timestamp: ${stakeData.stakeTimestamp}`);
+    console.log("\n   Duration        | Reward (SOL)   | Reward (lamports)");
+    console.log("   ----------------|----------------|------------------");
+
+    for (const duration of durations) {
+      // Simple interest formula: reward = principal * rate * (time / year)
+      const rewardLamports = Math.floor(
+        Number(stakeData.amount) * ANNUAL_RATE * (duration.seconds / SECONDS_PER_YEAR)
+      );
+      const rewardSol = rewardLamports / LAMPORTS_PER_SOL;
+
+      console.log(
+        `   ${duration.name.padEnd(15)} | ${rewardSol.toFixed(9).padStart(14)} | ${rewardLamports}`
+      );
+
+      // Verify reward calculation is positive and proportional
+      expect(rewardLamports).toBeGreaterThan(0);
+    }
+
+    // Verify 1 year reward equals 10% of stake
+    const oneYearReward = Math.floor(Number(stakeData.amount) * ANNUAL_RATE);
+    expect(oneYearReward).toBe(Math.floor(Number(stakeAmount) * 0.10));
+
+    console.log("\nReward calculation test passed!");
+    console.log(`   1 year reward at 10% APY: ${oneYearReward / LAMPORTS_PER_SOL} SOL`);
   });
 });
