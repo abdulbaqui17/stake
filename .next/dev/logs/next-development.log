@@ -1,0 +1,21 @@
+[00:00:00.732] Server  LOG     It looks like you're trying to use TypeScript but do not have the required package(s) installed.
+Installing dependencies
+
+If you are not trying to use TypeScript, please remove the tsconfig.json file from your package root (and any TypeScript files in your app and pages directories).
+
+[00:00:00.739] Server  LOG     
+[00:00:00.739] Server  LOG     Installing devDependencies (yarn):
+[00:00:00.739] Server  LOG     - @types/react
+[00:00:00.739] Server  LOG     
+[00:00:42.667] Server  LOG     
+[00:00:42.822] Server  LOG     ✓ Ready in 42.6s
+[00:00:44.980] Server  ERROR   Error: You have tried to read "publicKey" on a WalletContext without providing one. Make sure to render a WalletProvider as an ancestor of the component that uses WalletContext.
+[00:00:47.516] Browser ERROR   {}
+[00:00:47.517] Browser ERROR   {}
+[00:00:47.517] Browser ERROR   {}
+[00:00:47.517] Browser ERROR   {}
+[00:00:47.517] Browser ERROR   {}
+[00:00:47.517] Browser ERROR   {}
+[00:00:47.517] Browser ERROR   {}
+[00:00:47.517] Browser ERROR   {}
+[00:00:47.517] Browser ERROR   {}
