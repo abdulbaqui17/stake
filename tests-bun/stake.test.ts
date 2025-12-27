@@ -15,11 +15,6 @@ import { createHash } from "crypto";
 // Program ID - must match declare_id! in lib.rs
 const PROGRAM_ID = new PublicKey("BjXncxDW9oA7TqLdWVLcgyhoPT3vecadXmi9HJFw2Hmc");
 
-// ============================================================================
-// Helper Functions
-// ============================================================================
-
-/** Generate Anchor instruction discriminator (first 8 bytes of SHA256("global:<name>")) */
 function getDiscriminator(instructionName: string): Buffer {
   const preimage = `global:${instructionName}`;
   const hash = createHash("sha256").update(preimage).digest();
