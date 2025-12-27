@@ -25,10 +25,10 @@ pub struct UnstakeSol<'info> {
     /// CHECK: PDA used to hold SOL, validated by seeds
     #[account(
         mut,
-        seeds = [b"vault_sol", vault.key().as_ref()],
-        bump,
+        seeds = [b"vault_sol"],
+        bump = vault.vault_bump,
     )]
-    pub vault_sol_account: UncheckedAccount<'info>,
+    pub vault_sol_account: SystemAccount<'info>,
 
     pub system_program: Program<'info, System>,
 }
