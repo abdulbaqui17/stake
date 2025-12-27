@@ -109,7 +109,7 @@ describe("Stake Program - LiteSVM", () => {
     [vaultPda, vaultBump] = findVaultPda();
     [vaultSolPda, vaultSolBump] = findVaultSolPda();
 
-    console.log("✅ LiteSVM initialized");
+    console.log("LiteSVM initialized");
     console.log(`   Program ID: ${PROGRAM_ID.toBase58()}`);
     console.log(`   Authority: ${authority.publicKey.toBase58()}`);
     console.log(`   Vault PDA: ${vaultPda.toBase58()}`);
@@ -144,7 +144,7 @@ describe("Stake Program - LiteSVM", () => {
     expect(vaultAccount).not.toBeNull();
     expect(vaultAccount!.owner.toBase58()).toBe(PROGRAM_ID.toBase58());
 
-    console.log("✅ Vault initialized successfully!");
+    console.log("Vault initialized successfully!");
     console.log(`   Vault owner: ${vaultAccount!.owner.toBase58()}`);
     console.log(`   Vault data length: ${vaultAccount!.data.length} bytes`);
   });
@@ -166,7 +166,7 @@ describe("Stake Program - LiteSVM", () => {
     const stakeAccountBefore = svm.getAccount(stakeAccountPda);
     expect(stakeAccountBefore).toBeNull();
 
-    console.log("\n📊 State BEFORE stake_sol:");
+    console.log("\nState BEFORE stake_sol:");
     console.log(`   User balance: ${Number(userBalanceBefore) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   Vault SOL balance: ${Number(vaultSolBalanceBefore) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   Vault totalStaked: ${Number(vaultDataBefore.totalStaked) / LAMPORTS_PER_SOL} SOL`);
@@ -203,7 +203,7 @@ describe("Stake Program - LiteSVM", () => {
     const vaultDataAfter = parseVault(vaultAccountAfter!.data);
     const stakeAccountAfter = svm.getAccount(stakeAccountPda);
 
-    console.log("\n📊 State AFTER stake_sol:");
+    console.log("\nState AFTER stake_sol:");
     console.log(`   User balance: ${Number(userBalanceAfter) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   Vault SOL balance: ${Number(vaultSolBalanceAfter) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   Vault totalStaked: ${Number(vaultDataAfter.totalStaked) / LAMPORTS_PER_SOL} SOL`);
@@ -214,43 +214,43 @@ describe("Stake Program - LiteSVM", () => {
     // 1. User balance decreased by stake amount (plus tx fees)
     const userBalanceDecrease = userBalanceBefore - userBalanceAfter;
     expect(userBalanceDecrease).toBeGreaterThanOrEqual(stakeAmount);
-    console.log(`\n✅ User balance decreased by ${Number(userBalanceDecrease) / LAMPORTS_PER_SOL} SOL`);
+    console.log(`\nUser balance decreased by ${Number(userBalanceDecrease) / LAMPORTS_PER_SOL} SOL`);
 
     // 2. Vault PDA balance increased by stake amount
     const vaultBalanceIncrease = vaultSolBalanceAfter - vaultSolBalanceBefore;
     expect(vaultBalanceIncrease).toBe(stakeAmount);
-    console.log(`✅ Vault SOL balance increased by ${Number(vaultBalanceIncrease) / LAMPORTS_PER_SOL} SOL`);
+    console.log(`Vault SOL balance increased by ${Number(vaultBalanceIncrease) / LAMPORTS_PER_SOL} SOL`);
 
     // 3. StakeAccount PDA was created
     expect(stakeAccountAfter).not.toBeNull();
     expect(stakeAccountAfter!.owner.toBase58()).toBe(PROGRAM_ID.toBase58());
-    console.log(`✅ StakeAccount PDA created, owned by program`);
+    console.log(`StakeAccount PDA created, owned by program`);
 
     // 4. Parse and verify StakeAccount data
     const stakeData = parseStakeAccount(stakeAccountAfter!.data);
     
     // Verify user pubkey stored correctly
     expect(stakeData.user.toBase58()).toBe(authority.publicKey.toBase58());
-    console.log(`✅ StakeAccount.user matches: ${stakeData.user.toBase58()}`);
+    console.log(`StakeAccount.user matches: ${stakeData.user.toBase58()}`);
     
     // Verify amount stored correctly
     expect(stakeData.amount).toBe(stakeAmount);
-    console.log(`✅ StakeAccount.amount = ${Number(stakeData.amount) / LAMPORTS_PER_SOL} SOL`);
+    console.log(`StakeAccount.amount = ${Number(stakeData.amount) / LAMPORTS_PER_SOL} SOL`);
     
     // Verify timestamp field exists (LiteSVM may return 0 since Clock sysvar isn't fully simulated)
     // In production, this would be non-zero
     expect(stakeData.stakeTimestamp).toBeGreaterThanOrEqual(BigInt(0));
-    console.log(`✅ StakeAccount.stake_timestamp = ${stakeData.stakeTimestamp}`);
+    console.log(`StakeAccount.stake_timestamp = ${stakeData.stakeTimestamp}`);
     
     // Verify bump is stored
     expect(stakeData.bump).toBe(stakeAccountBump);
-    console.log(`✅ StakeAccount.bump = ${stakeData.bump}`);
+    console.log(`StakeAccount.bump = ${stakeData.bump}`);
 
     // 5. Vault totalStaked increased
     expect(vaultDataAfter.totalStaked).toBe(vaultDataBefore.totalStaked + stakeAmount);
-    console.log(`✅ Vault.totalStaked increased to ${Number(vaultDataAfter.totalStaked) / LAMPORTS_PER_SOL} SOL`);
+    console.log(`Vault.totalStaked increased to ${Number(vaultDataAfter.totalStaked) / LAMPORTS_PER_SOL} SOL`);
 
-    console.log("\n🎉 stake_sol test passed - all state changes verified!");
+    console.log("\nstake_sol test passed - all state changes verified!");
   });
 
   // ==========================================================================
@@ -272,7 +272,7 @@ describe("Stake Program - LiteSVM", () => {
     const vaultDataBefore = parseVault(vaultAccountBefore!.data);
     const stakeAccountRentBefore = stakeAccountBefore!.lamports;
 
-    console.log("\n📊 State BEFORE unstake_sol:");
+    console.log("\nState BEFORE unstake_sol:");
     console.log(`   User balance: ${Number(userBalanceBefore) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   Vault SOL balance: ${Number(vaultSolBalanceBefore) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   Vault totalStaked: ${Number(vaultDataBefore.totalStaked) / LAMPORTS_PER_SOL} SOL`);
@@ -313,7 +313,7 @@ describe("Stake Program - LiteSVM", () => {
     const vaultDataAfter = parseVault(vaultAccountAfter!.data);
     const stakeAccountAfter = svm.getAccount(stakeAccountPda);
 
-    console.log("\n📊 State AFTER unstake_sol:");
+    console.log("\nState AFTER unstake_sol:");
     console.log(`   User balance: ${Number(userBalanceAfter) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   Vault SOL balance: ${Number(vaultSolBalanceAfter) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   Vault totalStaked: ${Number(vaultDataAfter.totalStaked) / LAMPORTS_PER_SOL} SOL`);
@@ -325,26 +325,26 @@ describe("Stake Program - LiteSVM", () => {
     // User gets: unstakeAmount + stakeAccountRent - txFees
     const userBalanceIncrease = userBalanceAfter - userBalanceBefore;
     expect(userBalanceAfter).toBeGreaterThan(userBalanceBefore);
-    console.log(`\n✅ User balance increased by ${Number(userBalanceIncrease) / LAMPORTS_PER_SOL} SOL`);
+    console.log(`\nUser balance increased by ${Number(userBalanceIncrease) / LAMPORTS_PER_SOL} SOL`);
     console.log(`   (unstaked amount + rent refund - tx fees)`);
 
     // 2. Vault SOL balance decreased by unstake amount
     const vaultBalanceDecrease = vaultSolBalanceBefore - vaultSolBalanceAfter;
     expect(vaultBalanceDecrease).toBe(unstakeAmount);
-    console.log(`✅ Vault SOL balance decreased by ${Number(vaultBalanceDecrease) / LAMPORTS_PER_SOL} SOL`);
+    console.log(`Vault SOL balance decreased by ${Number(vaultBalanceDecrease) / LAMPORTS_PER_SOL} SOL`);
 
     // 3. PDA signed the transfer correctly (if we got here, it worked!)
-    console.log(`✅ PDA signed the transfer correctly (invoke_signed succeeded)`);
+    console.log(`PDA signed the transfer correctly (invoke_signed succeeded)`);
 
     // 4. StakeAccount PDA is CLOSED (account should not exist)
     expect(stakeAccountAfter).toBeNull();
-    console.log(`✅ StakeAccount PDA is closed (account no longer exists)`);
+    console.log(`StakeAccount PDA is closed (account no longer exists)`);
 
     // 5. Vault totalStaked decreased
     expect(vaultDataAfter.totalStaked).toBe(vaultDataBefore.totalStaked - unstakeAmount);
-    console.log(`✅ Vault.totalStaked decreased to ${Number(vaultDataAfter.totalStaked) / LAMPORTS_PER_SOL} SOL`);
+    console.log(`Vault.totalStaked decreased to ${Number(vaultDataAfter.totalStaked) / LAMPORTS_PER_SOL} SOL`);
 
-    console.log("\n🎉 unstake_sol test passed - PDA signed transfer, account closed!");
+    console.log("\nunstake_sol test passed - PDA signed transfer, account closed!");
   });
 
   // ==========================================================================
@@ -389,7 +389,7 @@ describe("Stake Program - LiteSVM", () => {
     const stakeData = parseStakeAccount(stakeAccountAfter!.data);
     expect(stakeData.amount).toBe(stakeAmount);
 
-    console.log("✅ Successfully staked again after previous unstake!");
+    console.log("Successfully staked again after previous unstake!");
     console.log(`   New stake amount: ${Number(stakeData.amount) / LAMPORTS_PER_SOL} SOL`);
   });
 });
