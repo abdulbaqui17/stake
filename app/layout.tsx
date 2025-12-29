@@ -1,3 +1,7 @@
+import "./globals.css";
+import "@solana/wallet-adapter-react-ui/styles.css";
+import WalletContextProvider from "./context/WalletProvider";
+
 export const metadata = {
   title: "SOL Staking Frontend",
   description: "A minimal Next.js frontend for SOL staking"
@@ -11,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex items-center justify-center bg-gray-100">
-        {children}
+        <WalletContextProvider>
+          {children}
+        </WalletContextProvider>
       </body>
     </html>
   );

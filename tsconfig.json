@@ -35,7 +35,8 @@
     "tests-bun/**/*",
     "programs/**/*",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    "global.d.ts"
   ],
   "exclude": [
     "node_modules",

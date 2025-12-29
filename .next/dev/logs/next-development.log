@@ -1,1 +1,11 @@
-[00:00:00.635] Server  LOG     ✓ Ready in 426ms
+[00:00:00.585] Server  LOG     ✓ Ready in 366ms
+[00:00:03.772] Browser WARN    Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.
+[00:00:04.775] Browser ERROR   {"error":{"code":-32603,"message":"Unexpected error"},"name":"WalletConnectionError"} {"_events":{"connect":{"context":"[Circular]","once":false},"disconnect":[{"context":"[Circular]","once":false},{"context":"[Circular]","once":false}],"error":{"context":"[Circular]","once":false},"readyStateChange":{"context":"[Circular]","once":false}},"_eventsCount":4}
+[00:00:13.617] Browser WARN    Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.
+[00:00:15.692] Browser ERROR   {"error":{"code":-32603,"message":"Unexpected error"},"name":"WalletConnectionError"} {"_events":{"connect":{"context":"[Circular]","once":false},"disconnect":[{"context":"[Circular]","once":false},{"context":"[Circular]","once":false}],"error":{"context":"[Circular]","once":false},"readyStateChange":{"context":"[Circular]","once":false}},"_eventsCount":4}
+[00:01:37.770] Browser WARN    Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.
+[00:04:12.389] Browser WARN    Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.
+[00:06:15.019] Server  LOG     ✓ Compiled in 50ms
+[00:06:53.561] Browser WARN    Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.
+[00:08:15.192] Server  LOG     ✓ Compiled in 46ms
+[00:08:35.593] Browser WARN    Phantom was registered as a Standard Wallet. The Wallet Adapter for Phantom can be removed from your app.

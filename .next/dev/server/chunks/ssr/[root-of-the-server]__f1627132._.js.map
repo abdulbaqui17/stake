@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///Users/abdul/projects/stake/app/page.tsx"],"sourcesContent":["export default function Page() {\n  return (\n    <div className=\"text-center\">\n      <h1 className=\"text-2xl font-bold\">Welcome to SOL Staking Frontend</h1>\n      <p className=\"mt-4 text-gray-600\">Start building your staking app here.</p>\n    </div>\n  );\n}"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;gBAAG,WAAU;0BAAqB;;;;;;0BACnC,8OAAC;gBAAE,WAAU;0BAAqB;;;;;;;;;;;;AAGxC"}}]
-}
