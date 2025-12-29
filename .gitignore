@@ -5,3 +5,10 @@ target
 node_modules
 test-ledger
 .yarn
+
+# Next.js build output
+.next
+
+# Next.js cache
+.next/cache
+
