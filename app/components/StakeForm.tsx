@@ -53,10 +53,10 @@ const StakeForm = () => {
       await program.methods
         .stakeSol(amountLamports)
         .accounts({
-          stakeAccount: stakeAccountPDA,
-          vault: vaultPDA,
-          vaultSol: vaultSolPDA,
           user: wallet.publicKey,
+          vault: vaultPDA,
+          stakeAccount: stakeAccountPDA,
+          vaultSolAccount: vaultSolPDA,
           systemProgram: SystemProgram.programId,
         })
         .rpc();

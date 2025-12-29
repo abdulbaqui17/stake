@@ -35,7 +35,7 @@ const StakeInfo = () => {
         } else {
           setStakeData({
             amount: account.amount.toNumber() / 1e9, // Convert lamports to SOL
-            timestamp: new Date(account.timestamp.toNumber() * 1000).toLocaleString(),
+            timestamp: new Date(account.stakeTimestamp.toNumber() * 1000).toLocaleString(),
           });
         }
       } catch (err) {

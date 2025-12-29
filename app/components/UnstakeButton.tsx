@@ -22,7 +22,7 @@ export default function UnstakeButton() {
     setSuccess(false);
 
     try {
-    const program = getProgram(wallet);
+      const program = getProgram(wallet);
 
       // Derive PDAs
       const [stakeAccount] = PublicKey.findProgramAddressSync(
@@ -40,14 +40,18 @@ export default function UnstakeButton() {
         program.programId
       );
 
-      // Build transaction
+      // Fetch the stake account to get the staked amount
+      const stakeAccountData = await (program.account as any).stakeAccount.fetch(stakeAccount);
+      const stakedAmount = stakeAccountData.amount;
+
+      // Build transaction to unstake full amount
       const tx = await program.methods
-        .unstakeSol()
+        .unstakeSol(stakedAmount)
         .accounts({
           user: publicKey,
           stakeAccount,
           vault,
-          vaultSol,
+          vaultSolAccount: vaultSol,
           systemProgram: anchor.web3.SystemProgram.programId,
         })
         .transaction();
