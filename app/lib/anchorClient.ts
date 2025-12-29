@@ -1,6 +1,6 @@
 import { AnchorProvider, Program, setProvider, Idl } from "@coral-xyz/anchor";
 import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
-import idlJson from "../../target/idl/stake.json";
+import idlJson from "./idl/stake.json";
 
 // Program ID deployed on devnet
 const PROGRAM_ID = new PublicKey("C2vn8WDXEtTBHYf9ujRemiiSyPC561FoSAJhysMno7c3");

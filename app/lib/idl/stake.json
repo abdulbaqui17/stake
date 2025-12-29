@@ -1,0 +1,433 @@
+{
+  "address": "C2vn8WDXEtTBHYf9ujRemiiSyPC561FoSAJhysMno7c3",
+  "metadata": {
+    "name": "stake",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "initialize_vault",
+      "docs": [
+        "Initializes the staking vault"
+      ],
+      "discriminator": [
+        48,
+        191,
+        163,
+        44,
+        71,
+        129,
+        63,
+        164
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_sol_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  115,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stake_sol",
+      "docs": [
+        "Stakes native SOL into the vault"
+      ],
+      "discriminator": [
+        200,
+        38,
+        157,
+        155,
+        245,
+        57,
+        236,
+        168
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "stake_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_sol_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  115,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unstake_sol",
+      "docs": [
+        "Unstakes native SOL from the vault"
+      ],
+      "discriminator": [
+        70,
+        150,
+        140,
+        208,
+        166,
+        13,
+        252,
+        150
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "stake_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  107,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault_sol_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  115,
+                  111,
+                  108
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "StakeAccount",
+      "discriminator": [
+        80,
+        158,
+        67,
+        124,
+        50,
+        189,
+        192,
+        255
+      ]
+    },
+    {
+      "name": "Vault",
+      "discriminator": [
+        211,
+        8,
+        232,
+        43,
+        2,
+        152,
+        117,
+        119
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds to unstake"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidAmount",
+      "msg": "Invalid stake amount"
+    },
+    {
+      "code": 6002,
+      "name": "Overflow",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6003,
+      "name": "Unauthorized",
+      "msg": "Unauthorized access"
+    }
+  ],
+  "types": [
+    {
+      "name": "StakeAccount",
+      "docs": [
+        "StakeAccount PDA for tracking a user's native SOL stake.",
+        "",
+        "## PDA Seeds: [\"stake\", user_pubkey]",
+        "- `\"stake\"`: Namespace prefix to avoid collisions with other PDAs",
+        "- `user_pubkey`: The staker's wallet address, ensuring one stake account per user",
+        "",
+        "## Space Calculation",
+        "- Discriminator: 8 bytes (Anchor account identifier)",
+        "- user: 32 bytes (Pubkey)",
+        "- amount: 8 bytes (u64)",
+        "- stake_timestamp: 8 bytes (i64)",
+        "- bump: 1 byte (u8)",
+        "- Total: 8 + 32 + 8 + 8 + 1 = 57 bytes",
+        "",
+        "Using InitSpace derive macro for automatic calculation."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "docs": [
+              "The user's wallet pubkey who owns this stake.",
+              "Used as part of PDA seeds to ensure unique stake account per user."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Amount of native SOL staked in lamports.",
+              "1 SOL = 1_000_000_000 lamports (10^9).",
+              "u64 max: ~18.4 billion SOL (more than total supply)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "stake_timestamp",
+            "docs": [
+              "Unix timestamp (seconds) when the stake was created or last updated.",
+              "Used for calculating staking duration, rewards, or enforcing lock periods.",
+              "i64 allows dates until year 292 billion."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA derivation.",
+              "Stored to avoid recalculating during subsequent instructions.",
+              "Seeds: [\"stake\", user.key().as_ref()], bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Vault",
+      "docs": [
+        "Vault PDA (Program Derived Address) for holding staked SOL.",
+        "",
+        "## Why use a PDA?",
+        "- **Deterministic**: The address is derived from seeds [\"vault\"], making it",
+        "predictable and discoverable by anyone with the program ID.",
+        "- **Program-owned**: Only this program can sign for the PDA, ensuring",
+        "SOL can only be moved through program instructions.",
+        "- **No private key**: PDAs have no corresponding private key, eliminating",
+        "the risk of key compromise.",
+        "- **Rent-exempt**: Initialized with enough lamports to be rent-exempt,",
+        "ensuring the account persists indefinitely.",
+        "",
+        "## Seeds: [\"vault\"]",
+        "Single seed creates a unique, singleton vault per program deployment."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "Authority that can manage the vault (e.g., admin operations)"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed used to derive the PDA - stored to avoid recalculation"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "vault_bump",
+            "docs": [
+              "Bump seed for the vault's SOL holding account"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "total_staked",
+            "docs": [
+              "Total lamports (SOL) staked in the vault"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}
