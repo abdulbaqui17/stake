@@ -1,6 +1,7 @@
 "use client"
 import { useWallet } from "@solana/wallet-adapter-react";
 import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
 import StakeInfo from "./components/StakeInfo";
 import StakeForm from "./components/StakeForm";
 import UnstakeButton from "./components/UnstakeButton";
@@ -12,6 +13,30 @@ const WalletMultiButton = dynamic(
 
 export default function Page() {
   const { connected } = useWallet();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50">
+        <div className="w-full max-w-md space-y-6 p-8 bg-white rounded-2xl shadow-xl border border-gray-100">
+          <header className="text-center space-y-2">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+              SOL Staking
+            </h1>
+            <p className="text-sm text-gray-500">Stake your SOL securely using Anchor</p>
+          </header>
+          <div className="flex justify-center py-4">
+            <div className="animate-pulse bg-gray-200 h-12 w-40 rounded-lg"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50">
       <div className="w-full max-w-md space-y-6 p-8 bg-white rounded-2xl shadow-xl border border-gray-100">
