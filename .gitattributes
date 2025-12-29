@@ -1,21 +1,16 @@
-# Linguist overrides for accurate language detection
-
-# Ignore generated/build directories
+# Exclude node_modules and test files from language statistics
+node_modules/** linguist-vendored
+tests-bun/** linguist-vendored
 target/** linguist-generated
-test-ledger/** linguist-generated
+.next/** linguist-generated
 
-# Mark generated files
-target/idl/*.json linguist-generated
-target/types/*.ts linguist-generated
+# Mark TypeScript config files as configuration
+*.json linguist-language=JSON
+tsconfig.json linguist-vendored
+package.json linguist-vendored
+package-lock.json linguist-vendored
 
-# Ensure Rust is properly detected
+# Ensure Rust files are properly detected
 *.rs linguist-language=Rust
-
-# TypeScript detection
-*.ts linguist-language=TypeScript
-*.tsx linguist-language=TypeScript
-
-# Lock files are generated
-Cargo.lock linguist-generated
-yarn.lock linguist-generated
-bun.lockb linguist-generated
+Cargo.toml linguist-language=TOML
+Cargo.lock linguist-vendored
