@@ -22,7 +22,7 @@ const StakeInfo = () => {
       setError(null);
 
       try {
-        const program = getProgram();
+        const program = getProgram(wallet);
         const [stakeAccountPDA] = PublicKey.findProgramAddressSync(
           [Buffer.from("stake"), wallet.publicKey.toBuffer()],
           program.programId
@@ -50,27 +50,43 @@ const StakeInfo = () => {
   }, [wallet.connected, wallet.publicKey]);
 
   if (!wallet.connected) {
-    return <div className="flex items-center justify-center h-screen">Please connect your wallet.</div>;
+    return null;
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+    return (
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 text-center border border-gray-200">
+        <p className="text-gray-600 animate-pulse">Loading stake info...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="flex items-center justify-center h-screen">{error}</div>;
+    return (
+      <div className="bg-red-50 rounded-xl p-5 text-center border border-red-100">
+        <p className="text-red-600 font-medium">{error}</p>
+      </div>
+    );
   }
 
   if (!stakeData) {
-    return <div className="flex items-center justify-center h-screen">No stake account found.</div>;
+    return (
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 text-center border border-gray-200">
+        <p className="text-gray-600 font-medium">No stake account found</p>
+        <p className="text-xs text-gray-500 mt-1">Stake SOL to get started</p>
+      </div>
+    );
   }
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-white shadow-md rounded-lg p-6 text-center">
-        <h2 className="text-xl font-bold mb-4">Stake Account</h2>
-        <p className="text-gray-700">Staked Amount: {stakeData.amount} SOL</p>
-        <p className="text-gray-700">Stake Timestamp: {stakeData.timestamp}</p>
+    <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl p-5 space-y-3 border border-indigo-100">
+      <div className="flex justify-between items-center">
+        <span className="text-sm font-medium text-gray-600">Staked Amount</span>
+        <span className="text-xl font-bold text-indigo-700">{stakeData.amount} SOL</span>
+      </div>
+      <div className="flex justify-between items-center">
+        <span className="text-sm font-medium text-gray-600">Staked At</span>
+        <span className="text-xs text-gray-700">{stakeData.timestamp}</span>
       </div>
     </div>
   );

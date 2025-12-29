@@ -28,7 +28,7 @@ const StakeForm = () => {
     setStatus(null);
 
     try {
-      const program = getProgram();
+      const program = getProgram(wallet);
       
       // Convert SOL to lamports
       const amountLamports = new BN(amountNum * LAMPORTS_PER_SOL);
@@ -74,56 +74,46 @@ const StakeForm = () => {
   const isDisabled = !wallet.connected || loading || !amount || parseFloat(amount) <= 0;
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">Stake SOL</h2>
-        
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Amount (SOL)
-          </label>
-          <input
-            type="number"
-            step="0.01"
-            min="0"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter amount"
-            disabled={!wallet.connected || loading}
-          />
-        </div>
+    <div className="space-y-4">
+      <div>
+        <label className="block text-gray-700 text-sm font-semibold mb-2">
+          Amount (SOL)
+        </label>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          className="w-full py-3 px-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+          placeholder="0.00"
+          disabled={!wallet.connected || loading}
+        />
+      </div>
 
-        <button
-          onClick={handleStake}
-          disabled={isDisabled}
-          className={`w-full font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-            isDisabled
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-700 text-white"
+      <button
+        onClick={handleStake}
+        disabled={isDisabled}
+        className={`w-full py-3.5 px-4 rounded-xl font-semibold transition-all transform ${
+          isDisabled
+            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+            : "bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 shadow-lg hover:shadow-xl active:scale-95"
+        }`}
+      >
+        {loading ? "Staking..." : "Stake SOL"}
+      </button>
+
+      {status && (
+        <div
+          className={`p-4 rounded-xl border ${
+            status.type === "success"
+              ? "bg-green-50 text-green-800 border-green-200"
+              : "bg-red-50 text-red-800 border-red-200"
           }`}
         >
-          {loading ? "Staking..." : "Stake SOL"}
-        </button>
-
-        {status && (
-          <div
-            className={`mt-4 p-3 rounded ${
-              status.type === "success"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {status.message}
-          </div>
-        )}
-
-        {!wallet.connected && (
-          <p className="mt-4 text-center text-gray-600 text-sm">
-            Please connect your wallet to stake SOL
-          </p>
-        )}
-      </div>
+          <p className="font-medium">{status.message}</p>
+        </div>
+      )}
     </div>
   );
 };

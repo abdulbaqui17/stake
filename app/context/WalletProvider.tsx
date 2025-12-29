@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, ReactNode, useMemo, useCallback } from "react";
+import { FC, ReactNode, useMemo, useCallback, useState, useEffect } from "react";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
@@ -14,7 +14,28 @@ interface WalletContextProviderProps {
 const WalletContextProvider: FC<WalletContextProviderProps> = ({ children }) => {
   const endpoint = clusterApiUrl("devnet");
 
-  const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
+  const [wallets, setWallets] = useState<any[]>([]);
+  const [deferredAutoConnect, setDeferredAutoConnect] = useState(false);
+
+  useEffect(() => {
+    // Delay initializing adapters and enabling autoConnect until after mount
+    // and only when a wallet provider is present. This prevents adapter
+    // instances from trying to connect when no provider exists.
+    if (typeof window === "undefined") return;
+
+    const hasPhantom = (window as any).phantom?.solana?.isPhantom === true;
+    const hasStandard = !!(window as any).wallets || !!(window as any).solana;
+
+    if (hasPhantom || hasStandard) {
+      // instantiate adapters now that provider is present
+      setWallets([new PhantomWalletAdapter()]);
+      setDeferredAutoConnect(true);
+    } else {
+      // ensure no adapters are provided when no provider exists
+      setWallets([]);
+      setDeferredAutoConnect(false);
+    }
+  }, []);
 
   const onError = useCallback((error: WalletError) => {
     console.error("Wallet error:", error);
@@ -26,7 +47,7 @@ const WalletContextProvider: FC<WalletContextProviderProps> = ({ children }) => 
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} onError={onError} autoConnect>
+      <WalletProvider wallets={wallets} onError={onError} autoConnect={false}>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>

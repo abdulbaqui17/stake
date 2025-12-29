@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex items-center justify-center bg-gray-100">
+      <body>
         <WalletContextProvider>
           {children}
         </WalletContextProvider>
