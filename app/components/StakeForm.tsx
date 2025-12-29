@@ -77,43 +77,43 @@ const StakeForm = () => {
     <div className="space-y-4">
       <div>
         <label className="block text-gray-700 text-sm font-semibold mb-2">
-          Amount (SOL)
-        </label>
-        <input
-          type="number"
-          step="0.01"
-          min="0"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+            Amount (SOL)
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
           className="w-full py-3 px-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
           placeholder="0.00"
-          disabled={!wallet.connected || loading}
-        />
-      </div>
+            disabled={!wallet.connected || loading}
+          />
+        </div>
 
-      <button
-        onClick={handleStake}
-        disabled={isDisabled}
+        <button
+          onClick={handleStake}
+          disabled={isDisabled}
         className={`w-full py-3.5 px-4 rounded-xl font-semibold transition-all transform ${
-          isDisabled
+            isDisabled
             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
             : "bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 shadow-lg hover:shadow-xl active:scale-95"
-        }`}
-      >
-        {loading ? "Staking..." : "Stake SOL"}
-      </button>
-
-      {status && (
-        <div
-          className={`p-4 rounded-xl border ${
-            status.type === "success"
-              ? "bg-green-50 text-green-800 border-green-200"
-              : "bg-red-50 text-red-800 border-red-200"
           }`}
         >
+          {loading ? "Staking..." : "Stake SOL"}
+        </button>
+
+        {status && (
+          <div
+          className={`p-4 rounded-xl border ${
+              status.type === "success"
+              ? "bg-green-50 text-green-800 border-green-200"
+              : "bg-red-50 text-red-800 border-red-200"
+            }`}
+          >
           <p className="font-medium">{status.message}</p>
-        </div>
-      )}
+          </div>
+        )}
     </div>
   );
 };

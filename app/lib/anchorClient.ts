@@ -1,8 +1,15 @@
-import { AnchorProvider, Program, setProvider } from "@coral-xyz/anchor";
+import { AnchorProvider, Program, setProvider, Idl } from "@coral-xyz/anchor";
 import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
-import idl from "../../target/idl/stake.json";
+import idlJson from "../../target/idl/stake.json";
 
-const programId = new PublicKey("BjXncxDW9oA7TqLdWVLcgyhoPT3vecadXmi9HJFw2Hmc");
+// Program ID deployed on devnet
+const PROGRAM_ID = new PublicKey("C2vn8WDXEtTBHYf9ujRemiiSyPC561FoSAJhysMno7c3");
+
+// Create IDL with correct address
+const idl = {
+  ...idlJson,
+  address: PROGRAM_ID.toBase58(),
+} as Idl;
 
 export function getProgram(wallet: any) {
   if (!wallet || !wallet.connected) {
@@ -14,5 +21,5 @@ export function getProgram(wallet: any) {
 
   setProvider(provider);
 
-  return new Program(idl as any, provider);
+  return new Program(idl, provider);
 }
